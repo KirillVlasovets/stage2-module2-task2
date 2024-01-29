@@ -24,12 +24,15 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String login = request.getParameter("login");
-        if (login == null || login.isEmpty()) {
-            return;
+        String password = request.getParameter("password");
+        if (login == null || login.isEmpty() || password == null) {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
         if (Users.getInstance().getUsers().contains(login)) {
             request.setAttribute("user", login);
             request.getRequestDispatcher("user/hello.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 }
